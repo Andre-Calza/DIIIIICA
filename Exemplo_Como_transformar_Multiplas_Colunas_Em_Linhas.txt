@@ -1,0 +1,38 @@
+****SQL < 2005
+SELECT name, 'age' as column, cast(age as varchar(10)) as value
+FROM yourtable
+UNION ALL
+SELECT name, 'gender' as column, gender as value
+FROM yourtable;
+
+****SQL 2005
+SELECT name, column, age
+FROM
+(
+  SELECT 
+    name, 
+    age = cast(age as varchar(10)), 
+    gender
+  FROM yourtable
+) d
+UNPIVOT
+(
+  value
+  for column in (age, gender)
+) unpiv;
+
+
+*****SQL 2008 +
+SELECT  Nome, value
+FROM DENUNCIA_CADASTRO 
+CROSS APPLY
+(
+  VALUES
+    ('Código', COD_CONSULTORA),
+    ('Nome', NOME_CONSULTORA)
+) c (Nome, value)
+where ID_ENVIO = 164
+
+
+
+http://stackoverflow.com/questions/24828346/sql-server-unpivot-multiple-columns
